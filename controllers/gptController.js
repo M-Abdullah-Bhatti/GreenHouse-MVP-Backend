@@ -1,42 +1,38 @@
-const { Configuration, OpenAIApi } = require("openai");
-
-// const openai = new OpenAIApi(
-//   new Configuration({
-//     apiKey: "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",
-//   })
-// );
-
-const configuration = new Configuration({
-  apiKey: "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",
-});
-
-const openai = new OpenAIApi(configuration);
+const { chapGPT } = require("../utils/gpt");
+const { getAllRowsForCompany } = require("../utils/readExcel");
 
 module.exports.gptResponse = async (req, res, next) => {
   try {
-    // const { prompt } = req.body;
-    const prompt = "hello how are you";
+    const { targetCompanyName } = req.body;
+    let fileName = "Data Collection.xlsx";
 
-    const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: "prompt" }],
-    });
+    let rowsOfCompany = getAllRowsForCompany(fileName, targetCompanyName);
 
+    if (Object.keys(rowsOfCompany).length === 0) {
+      return res.status(400).json({ message: "No record found" });
+    }
+
+    let prompt = `Please analyze the provided data for company "${targetCompanyName}" across different sheets (InsigAI, Twitter, and Carbon offsets) and identify any contradictions or inconsistencies between the information provided. You can mention any conflicting mismatched details, or information that doesn't align across these sources. If there are any discrepancies, please highlight them.\n\n${JSON.stringify(
+      rowsOfCompany,
+      null,
+      2
+    )}
+    `;
+
+    let response = await chapGPT(prompt);
     if (!response) {
-      console.log("Here");
-      return res.status(500).json({ message: "Internal Server Error" });
+      console.log("response: ", response);
+      return res.status(400).json({ message: "error" });
     } else {
-      console.log("Here2");
-
-      res
-        .status(200)
-        .json({
-          response: response["data"]["choices"][0]["message"]["content"],
-        });
+      console.log("===", response);
+      res.status(200).json({
+        success: true,
+        response: response,
+      });
     }
   } catch (error) {
-    console.log("Here3");
+    console.log("catch error");
 
-    return res.status(200).json({ message: error });
+    return res.status(500).json({ message: error.message });
   }
 };

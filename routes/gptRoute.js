@@ -2,6 +2,6 @@ const { gptResponse } = require("../controllers/gptController");
 
 const router = require("express").Router();
 
-router.get("/hello", gptResponse);
+router.post("/hello", gptResponse);
 
 module.exports = router;
