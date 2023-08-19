@@ -55,6 +55,3 @@ const fileName = 'Data Collection.xlsx';
 module.exports = {
   getAllRowsForCompany
 }
-
-// const result = getAllRowsForCompany(fileName, targetCompanyName);
-// console.log(result);
