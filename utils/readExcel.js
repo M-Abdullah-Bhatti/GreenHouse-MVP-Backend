@@ -28,13 +28,14 @@ const xlsx = require("xlsx");
 const getAllRowsForCompany = (fileName, companyName) => {
   const workbook = xlsx.readFile(fileName);
   const sheetNames = workbook.SheetNames;
-  const filteredSheetNames = sheetNames.filter(
-    (sheet) => sheet !== "Zero tracker"
-  );
+  // const filteredSheetNames = sheetNames.filter(
+  //   (sheet) => sheet !== "Zero tracker"
+  // );
 
   const allRows = {};
 
-  filteredSheetNames.forEach((sheetName) => {
+  // filteredSheetNames.forEach((sheetName) => {
+  sheetNames.forEach((sheetName) => {
     const sheet = workbook.Sheets[sheetName];
     const rows = xlsx.utils.sheet_to_json(sheet);
     const filteredRows = rows.filter((row) => row.Company === companyName);
