@@ -2,9 +2,9 @@ const XLSX = require("xlsx");
 const path = require("path");
 const { chapGPT } = require("./utils/gpt");
 
-async function analyzeCompanyEmissions(companyName) {
+async function analyzeCompanyEmissions(companyName, fileName) {
   // Load the Excel file
-  const workbook = XLSX.readFile(path.join(__dirname, "carbon_emissions.xlsx"));
+  const workbook = XLSX.readFile(path.join(__dirname, fileName));
 
   // Get the data from the sheet
   const worksheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -18,25 +18,14 @@ async function analyzeCompanyEmissions(companyName) {
 
   const companyRows = filterRowsByCompany(companyName);
 
-  let prompt = `"I am giving you a record of ${companyName}. Identify any inconsistencies for ${companyName}. Report conflicting details or misalignments between these sources, if any, in a concise manner. Keep the response within 10 lines."\n${JSON.stringify(
-    companyRows,
-    null,
-    2
-  )}`;
-
-  //   const prompt = "Hello world";
-
-  let response = await chapGPT(prompt);
-  if (!response) {
-    console.log("Error generated!!!");
-  } else {
-    console.log("Response:", response);
-  }
-
   // Return the filtered rows
   return companyRows;
 }
 
-// Example: Call the function for a specific company
-const companyName = "Tryg A/S"; // Change this to the desired company name
-analyzeCompanyEmissions(companyName);
+// // Example: Call the function for a specific company
+// const companyName = "Tryg A/S"; // Change this to the desired company name
+// analyzeCompanyEmissions(companyName);
+
+module.exports = {
+  analyzeCompanyEmissions,
+};
