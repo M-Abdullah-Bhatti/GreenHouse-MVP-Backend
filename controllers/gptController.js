@@ -1,42 +1,51 @@
 const { analyzeCompanyEmissions } = require("../ExtraFile");
 const { chapGPT } = require("../utils/gpt");
-const { getAllRowsForCompany } = require("../utils/readExcel");
+const { getAllTextForCompany } = require("../utils/readExcel");
 
 module.exports.gptResponse = async (req, res, next) => {
   try {
     const { targetCompanyName } = req.body;
     let fileName = "Data Collection.xlsx";
 
-    let rowsOfCompany = getAllRowsForCompany(fileName, targetCompanyName);
+    let rowsOfCompany = getAllTextForCompany(fileName, targetCompanyName);
 
     // console.log(rowsOfCompany);
 
-    if (Object.keys(rowsOfCompany).length === 0) {
-      return res.status(400).json({ message: "No record found" });
+    if (!rowsOfCompany) {
+      return res
+        .status(400)
+        .json({ message: `No record found of ${targetCompanyName}` });
     }
 
-    // let prompt = `Please analyze the provided data for company "${targetCompanyName}" across different sheets (InsigAI, Twitter, and Carbon offsets) and identify any contradictions or inconsistencies between the information provided. You can mention any conflicting mismatched details, or information that doesn't align across these sources. If there are any discrepancies, please highlight them.${JSON.stringify(
+    // if (Object.keys(rowsOfCompany).length === 0) {
+    // return res.status(400).json({ message: "No record found" });
+    // }
+
+    // // let prompt = `Please analyze the provided data for company "${targetCompanyName}" across different sheets (InsigAI, Twitter, and Carbon offsets) and identify any contradictions or inconsistencies between the information provided. You can mention any conflicting mismatched details, or information that doesn't align across these sources. If there are any discrepancies, please highlight them.${JSON.stringify(
+    // //   rowsOfCompany,
+    // //   null,
+    // //   2
+    // // )}
+    // // `;
+
+    // // let prompt = `"Identify any inconsistencies for ${targetCompanyName} in the given data across 'InsigAI,' 'Twitter,' and 'Carbon offsets' sheets. Report any conflicting details or information misalignment between these sources, if present. The response should not be more than 10 lines".${JSON.stringify(
+    // //   rowsOfCompany,
+    // //   null,
+    // //   2
+    // // )}
+    // // `;
+
+    // let prompt = `"Identify any inconsistencies for ${targetCompanyName} within the data across 'InsigAI,' 'Twitter,' and 'Carbon offsets' sheets. Report conflicting details or misalignments between these sources, if any, in a concise manner. Keep the response within 12 lines.".${JSON.stringify(
     //   rowsOfCompany,
     //   null,
     //   2
     // )}
     // `;
 
-    // let prompt = `"Identify any inconsistencies for ${targetCompanyName} in the given data across 'InsigAI,' 'Twitter,' and 'Carbon offsets' sheets. Report any conflicting details or information misalignment between these sources, if present. The response should not be more than 10 lines".${JSON.stringify(
-    //   rowsOfCompany,
-    //   null,
-    //   2
-    // )}
-    // `;
-
-    let prompt = `"Identify any inconsistencies for ${targetCompanyName} within the data across 'InsigAI,' 'Twitter,' and 'Carbon offsets' sheets. Report conflicting details or misalignments between these sources, if any, in a concise manner. Keep the response within 12 lines.".${JSON.stringify(
-      rowsOfCompany,
-      null,
-      2
-    )}
+    let prompt = `Identify any inconsistencies for ${targetCompanyName} within the data across different sheets. Report conflicting details or misalignments between these sources, if any, in a concise manner. The data is given below: \n\n
+    ${rowsOfCompany}
     `;
-
-    // console.log("prompt: ", prompt);
+    console.log("prompt: ", prompt);
 
     let response = await chapGPT(prompt);
     if (!response) {

@@ -48,7 +48,7 @@ const getAllTextForCompany = (fileName, companyName) => {
     let filteredRows = rows.filter((row) => row.Company === companyName);
 
     // Limit to 20 rows
-    filteredRows = filteredRows.slice(0, 7);
+    filteredRows = filteredRows.slice(0, 20);
 
     if (filteredRows.length > 0) {
       let sheetText = [];
@@ -70,9 +70,5 @@ const targetCompanyName = "JP Morgan";
 
 const fileName = "Data Collection.xlsx"; // Set the correct file path here
 
-// const result = getAllTextForCompany(fileName, targetCompanyName);
-// console.log(result);
-
-module.exports = {
-  getAllTextForCompany,
-};
+const result = getAllTextForCompany(fileName, targetCompanyName);
+console.log(result);
