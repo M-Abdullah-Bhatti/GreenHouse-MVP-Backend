@@ -70,9 +70,6 @@ const targetCompanyName = "JP Morgan";
 
 const fileName = "Data Collection.xlsx"; // Set the correct file path here
 
-// const result = getAllTextForCompany(fileName, targetCompanyName);
-// console.log(result);
-
 module.exports = {
   getAllTextForCompany,
 };
