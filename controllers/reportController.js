@@ -1,31 +1,27 @@
-const  ReportModel = require("../model/reportModel")
-
+const ReportModel = require("../model/reportModel");
 
 const sendReportToRegulator = async (req, res) => {
   const { companyName } = req.body;
-
+  console.log("body " + companyName);
 
   try {
-    const report = await ReportModel.findOne({ companyName });
-    console.log(report)
+    const existingReports = await ReportModel.find({ companyName });
+    console.log("existingReports " + existingReports);
 
-    if (!report) {
-      return res.status(404).json({ message: "Report doesn't exist" });
+    if (existingReports.length > 0) {
+      return res.status(409).json({ message: "Report already exists" });
     }
 
-    const updatedReportStatus = report.sentToRegulators = true
+    const newReport = await ReportModel.create({ companyName });
+    newReport.sentToRegulators = true;
 
-   
-
-
-    res.status(200).json({ result: report, updatedReportStatus:updatedReportStatus });
+    res.status(200).json({ result: newReport });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-
-
-module.exports={
-    sendReportToRegulator
-}
+module.exports = {
+  sendReportToRegulator,
+};
