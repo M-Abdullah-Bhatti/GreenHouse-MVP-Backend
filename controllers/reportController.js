@@ -15,7 +15,22 @@ const sendReportToRegulator = async (req, res) => {
     const newReport = await ReportModel.create({ companyName });
     newReport.sentToRegulators = true;
 
+   await  newReport.save()
+
     res.status(200).json({ result: newReport });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+
+
+const getReportsSentToRegulators = async (req, res) => {
+  try {
+    const reports = await ReportModel.find({ sentToRegulators: true });
+    console.log(reports)
+    res.status(200).json({ results: reports });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
@@ -24,4 +39,5 @@ const sendReportToRegulator = async (req, res) => {
 
 module.exports = {
   sendReportToRegulator,
+  getReportsSentToRegulators
 };
