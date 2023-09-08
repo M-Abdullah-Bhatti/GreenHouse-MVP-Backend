@@ -10,9 +10,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const gptRoute = require("./routes/gptRoute");
 const regulatorRoute = require("./routes/regulatorRoute");
+const reportRoute=require("./routes/reportRoute")
+
 const connectDb = require("./config/db");
 app.use("/api/gpt", gptRoute);
 app.use("/api/regulator", regulatorRoute);
+app.use("/api/report", reportRoute)
 
 connectDb();
 
