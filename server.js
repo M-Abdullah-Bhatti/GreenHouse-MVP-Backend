@@ -17,7 +17,7 @@ app.use("/api/gpt", gptRoute);
 app.use("/api/regulator", regulatorRoute);
 app.use("/api/report", reportRoute);
 
-// connectDb();
+connectDb();
 
 app.listen(5000, () => {
   console.log("server listening on port ", 5000);

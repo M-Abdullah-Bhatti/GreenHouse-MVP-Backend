@@ -8,11 +8,11 @@ const reportSchema = new mongoose.Schema({
     type: String,
   },
 
-  potentialGreenswashing: {
+  age: {
     type: String,
   },
 
-  freshness: {
+  priority: {
     type: String,
   },
 
@@ -26,6 +26,11 @@ const reportSchema = new mongoose.Schema({
     default: true,
   },
 
+  reviewing: {
+    type: Boolean,
+    default: false,
+  },
+
   reviewed: {
     type: Boolean,
     default: false,
@@ -37,6 +42,30 @@ const reportSchema = new mongoose.Schema({
   },
 
   summary: {
+    type: String,
+  },
+
+  openedBy: {
+    type: String,
+  },
+
+  assignedTo: {
+    type: String,
+  },
+
+  timeStamp: {
+    type: String,
+  },
+
+  comment: {
+    type: String,
+  },
+
+  conclusion: {
+    type: String,
+  },
+
+  updatedComment: {
     type: String,
   },
 });
