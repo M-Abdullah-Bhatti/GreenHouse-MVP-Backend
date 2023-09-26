@@ -7,7 +7,7 @@ const sendReportToRegulator = async (req, res) => {
     const existingReports = await ReportModel.find({ companyName });
 
     if (existingReports.length > 0) {
-      return res.status(409).json({ message: "Report already exists" });
+      return res.json({ message: "Report already exists" });
     }
 
     const newReport = await ReportModel.create({
@@ -30,7 +30,7 @@ const sendReportToRegulator = async (req, res) => {
 const getReportsSentToRegulators = async (req, res) => {
   try {
     const reports = await ReportModel.find({ sentToRegulators: true });
-    console.log(reports);
+    // console.log(reports);
     res.status(200).json({ results: reports });
   } catch (error) {
     console.error(error);
@@ -43,12 +43,12 @@ const getAllPendingReports = async (req, res) => {
   try {
     const reports = await ReportModel.find({ pending: true });
     if (reports.length === 0) {
-      res.status(404).json({ message: "No record found" });
+      res.json({ message: "No pending reports found" });
     } else {
       res.status(200).json({ results: reports });
     }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -56,15 +56,13 @@ const getAllPendingReports = async (req, res) => {
 const getAllUnderReviewReports = async (req, res) => {
   try {
     const reports = await ReportModel.find({ reviewing: true });
-    console.log("===", reports.length);
-
     if (reports.length === 0) {
-      res.status(404).json({ message: "No record found" });
+      res.json({ message: "No under review reports found" });
     } else {
       res.status(200).json({ results: reports });
     }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -73,7 +71,7 @@ const getAllReviewedReports = async (req, res) => {
   try {
     const reports = await ReportModel.find({ reviewed: true });
     if (reports.length === 0) {
-      res.status(404).json({ message: "No record found" });
+      res.json({ message: "No reviewed reports found" });
     } else {
       res.status(200).json({ results: reports });
     }
@@ -86,13 +84,13 @@ const getDetailsOfSingleReport = async (req, res) => {
   try {
     const { company } = req.query;
     if (!company) {
-      res.status(404).json({ message: "Required company name to get details" });
+      res.json({ message: "Company name is required to get details" });
     }
     const reports = await ReportModel.find({ companyName: company });
     if (reports.length === 0) {
-      res.status(404).json({ message: "No record found" });
+      res.json({ message: "No report found" });
     } else {
-      console.log("hello");
+      // console.log("hello");
       res.status(200).json({ results: reports });
     }
   } catch (error) {
@@ -107,14 +105,14 @@ const changeStatusToReview = async (req, res) => {
 
     if (!company) {
       return res
-        .status(400)
+        
         .json({ message: "Company name is required to get details" });
     }
 
     const reports = await ReportModel.find({ companyName: company });
 
     if (reports.length === 0) {
-      return res.status(404).json({ message: "No record found" });
+      return res.json({ message: "No report found" });
     }
 
     // Assuming req.body contains the updated data
@@ -126,7 +124,7 @@ const changeStatusToReview = async (req, res) => {
 
     res.status(200).json({ results: updatedReport });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -137,14 +135,14 @@ const assignCase = async (req, res) => {
 
     if (!company) {
       return res
-        .status(400)
+        
         .json({ message: "Company name is required to get details" });
     }
 
     const reports = await ReportModel.find({ companyName: company });
 
     if (reports.length === 0) {
-      return res.status(404).json({ message: "No record found" });
+      return res.json({ message: "No report found" });
     }
 
     // Assuming req.body contains the updated data
@@ -156,7 +154,7 @@ const assignCase = async (req, res) => {
 
     res.status(200).json({ results: updatedReport });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -167,14 +165,14 @@ const closeCase = async (req, res) => {
 
     if (!company) {
       return res
-        .status(400)
+        
         .json({ message: "Company name is required to get details" });
     }
 
     const reports = await ReportModel.find({ companyName: company });
 
     if (reports.length === 0) {
-      return res.status(404).json({ message: "No record found" });
+      return res.json({ message: "No report found" });
     }
 
     // Assuming req.body contains the updated data
@@ -186,7 +184,7 @@ const closeCase = async (req, res) => {
 
     res.status(200).json({ results: updatedReport });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -197,14 +195,14 @@ const updateCase = async (req, res) => {
 
     if (!company) {
       return res
-        .status(400)
+        
         .json({ message: "Company name is required to get details" });
     }
 
     const reports = await ReportModel.find({ companyName: company });
 
     if (reports.length === 0) {
-      return res.status(404).json({ message: "No record found" });
+      return res.json({ message: "No report found" });
     }
 
     // Assuming req.body contains the updated data
@@ -216,7 +214,7 @@ const updateCase = async (req, res) => {
 
     res.status(200).json({ results: updatedReport });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
