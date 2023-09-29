@@ -55,8 +55,8 @@ const getReportsSentToRegulators = async (req, res) => {
 
 const modifyReportAgePriority = async(req, res)=>{
   try {
-    const {company, age, priority} = req.body
-    const report = await ReportModel.findOne({ companyName: company });
+  const {companyName, age, priority} = req.body
+    const report = await ReportModel.findOne({ companyName });
     if(!report){
      return res.json({ message: "No reports found" });
 
