@@ -10,10 +10,12 @@ const reportSchema = new mongoose.Schema({
 
   age: {
     type: String,
+    default:"Fresh"
   },
 
   priority: {
     type: String,
+    default:"Low"
   },
 
   sentToRegulators: {
@@ -23,7 +25,7 @@ const reportSchema = new mongoose.Schema({
 
   pending: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 
   reviewing: {

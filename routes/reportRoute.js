@@ -9,11 +9,15 @@ const {
   getAllUnderReviewReports,
   getAllReviewedReports,
   updateCase,
+  modifyReportAgePriority,
+  createReport,
 } = require("../controllers/reportController");
 
 const router = require("express").Router();
 
-router.post("/updateSendToRegulators", sendReportToRegulator);
+router.post("/createReport", createReport);
+router.put("/updateSendToRegulators", sendReportToRegulator);
+router.put("/updateReportAgePriority", modifyReportAgePriority);
 router.get("/getUpdateSendToRegulators", getReportsSentToRegulators);
 router.get("/getPendingReports", getAllPendingReports);
 router.get("/getSingleReportDetail", getDetailsOfSingleReport);

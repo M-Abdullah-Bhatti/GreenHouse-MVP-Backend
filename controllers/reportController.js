@@ -1,26 +1,41 @@
 const ReportModel = require("../model/reportModel");
 
-const sendReportToRegulator = async (req, res) => {
-  const { companyName, contradiction, age, priority } = req.body;
+const createReport = async (req, res) => {
+  
 
   try {
-    const existingReports = await ReportModel.find({ companyName });
+    
 
-    if (existingReports.length > 0) {
-      return res.json({ message: "Report already exists" });
-    }
+    const newReport = await ReportModel.create(req.body);
 
-    const newReport = await ReportModel.create({
-      companyName,
-      contradiction,
-      age,
-      priority,
-    });
-    newReport.sentToRegulators = true;
-
-    await newReport.save();
 
     res.status(200).json({ result: newReport });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+
+
+const sendReportToRegulator = async (req, res) => {
+  const { companyName } = req.body;
+
+  try {
+    const report = await ReportModel.findOne({ companyName });
+
+    if (!report) {
+      return res.json({ message: "No report found" });
+    }
+
+
+      const updatedReport = await ReportModel.findOneAndUpdate(
+      { companyName },
+      req.body,
+      { new: true } // To return the updated document
+    );
+
+    return res.status(200).json({ result: updatedReport });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
@@ -37,6 +52,28 @@ const getReportsSentToRegulators = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+const modifyReportAgePriority = async(req, res)=>{
+  try {
+    const {company, age, priority} = req.body
+    const report = await ReportModel.findOne({ companyName: company });
+    if(!report){
+     return res.json({ message: "No reports found" });
+
+    }
+
+    report.age=age
+    report.priority=priority
+    report.sentToRegulators=false
+
+    await report.save()
+
+    return res.json({results: report })
+    
+  } catch (error) {
+     res.status(500).json({ message: "Something went wrong" });    
+  }
+}
 
 // Third part api's
 const getAllPendingReports = async (req, res) => {
@@ -220,7 +257,9 @@ const updateCase = async (req, res) => {
 };
 
 module.exports = {
+  createReport,
   sendReportToRegulator,
+  modifyReportAgePriority,
   getReportsSentToRegulators,
   getAllPendingReports,
   getDetailsOfSingleReport,
