@@ -1,13 +1,8 @@
 const ReportModel = require("../model/reportModel");
 
 const createReport = async (req, res) => {
-  
-
   try {
-    
-
     const newReport = await ReportModel.create(req.body);
-
 
     res.status(200).json({ result: newReport });
   } catch (error) {
@@ -15,8 +10,6 @@ const createReport = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
-
-
 
 const sendReportToRegulator = async (req, res) => {
   const { companyName } = req.body;
@@ -28,8 +21,7 @@ const sendReportToRegulator = async (req, res) => {
       return res.json({ message: "No report found" });
     }
 
-
-      const updatedReport = await ReportModel.findOneAndUpdate(
+    const updatedReport = await ReportModel.findOneAndUpdate(
       { companyName },
       req.body,
       { new: true } // To return the updated document
@@ -53,27 +45,25 @@ const getReportsSentToRegulators = async (req, res) => {
   }
 };
 
-const modifyReportAgePriority = async(req, res)=>{
+const modifyReportAgePriority = async (req, res) => {
   try {
-  const {companyName, age, priority} = req.body
+    const { companyName, age, priority } = req.body;
     const report = await ReportModel.findOne({ companyName });
-    if(!report){
-     return res.json({ message: "No reports found" });
-
+    if (!report) {
+      return res.json({ message: "No reports found" });
     }
 
-    report.age=age
-    report.priority=priority
-    report.sentToRegulators=false
+    report.age = age;
+    report.priority = priority;
+    report.sentToRegulators = false;
 
-    await report.save()
+    await report.save();
 
-    return res.json({results: report })
-    
+    return res.json({ results: report });
   } catch (error) {
-     res.status(500).json({ message: "Something went wrong" });    
+    res.status(500).json({ message: "Something went wrong" });
   }
-}
+};
 
 // Third part api's
 const getAllPendingReports = async (req, res) => {
@@ -141,9 +131,7 @@ const changeStatusToReview = async (req, res) => {
     const { company } = req.body;
 
     if (!company) {
-      return res
-        
-        .json({ message: "Company name is required to get details" });
+      return res.json({ message: "Company name is required to get details" });
     }
 
     const reports = await ReportModel.find({ companyName: company });
@@ -171,9 +159,7 @@ const assignCase = async (req, res) => {
     const { company } = req.body;
 
     if (!company) {
-      return res
-        
-        .json({ message: "Company name is required to get details" });
+      return res.json({ message: "Company name is required to get details" });
     }
 
     const reports = await ReportModel.find({ companyName: company });
@@ -201,9 +187,7 @@ const closeCase = async (req, res) => {
     const { company } = req.body;
 
     if (!company) {
-      return res
-        
-        .json({ message: "Company name is required to get details" });
+      return res.json({ message: "Company name is required to get details" });
     }
 
     const reports = await ReportModel.find({ companyName: company });
@@ -231,9 +215,7 @@ const updateCase = async (req, res) => {
     const { company } = req.body;
 
     if (!company) {
-      return res
-        
-        .json({ message: "Company name is required to get details" });
+      return res.json({ message: "Company name is required to get details" });
     }
 
     const reports = await ReportModel.find({ companyName: company });
