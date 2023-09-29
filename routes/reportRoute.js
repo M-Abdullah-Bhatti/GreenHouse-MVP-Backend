@@ -16,7 +16,7 @@ const {
 const router = require("express").Router();
 
 router.post("/createReport", createReport);
-router.put("/updateSendToRegulators", sendReportToRegulator);
+router.post("/updateSendToRegulators", sendReportToRegulator);
 router.put("/updateReportAgePriority", modifyReportAgePriority);
 router.get("/getUpdateSendToRegulators", getReportsSentToRegulators);
 router.get("/getPendingReports", getAllPendingReports);

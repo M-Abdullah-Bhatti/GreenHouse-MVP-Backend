@@ -17,20 +17,16 @@ const sendReportToRegulator = async (req, res) => {
   try {
     const report = await ReportModel.findOne({ companyName });
 
-    if (!report) {
-      return res.json({ message: "No report found" });
+    if (report) {
+      return res.json({ success: false, message: "Report already exist" });
+    } else {
+      const newReport = await ReportModel.create(req.body);
+
+      return res.status(200).json({ success: true, result: newReport });
     }
-
-    const updatedReport = await ReportModel.findOneAndUpdate(
-      { companyName },
-      req.body,
-      { new: true } // To return the updated document
-    );
-
-    return res.status(200).json({ result: updatedReport });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ success: false, message: "Something went wrong" });
   }
 };
 
