@@ -22,14 +22,14 @@ module.exports.gptResponse = async (req, res, next) => {
     // let prompt = `Identify any inconsistencies for ${targetCompanyName} within the data across different sheets. Report conflicting details or misalignments between these sources, if any, in a concise manner. The data is given below: \n\n
     // ${description}
     // `;
-    let prompt = `Identify any inconsistencies for ${targetCompanyName} within the data across different sheets. Report conflicting details or misalignments between these sources, if any, in a concise manner. The data is given below: \n\n${JSON.stringify(
-      description,
-      null,
-      2
-    )}`;
+    // let prompt = `Identify any inconsistencies for ${targetCompanyName} within the data across different sheets. Report conflicting details or misalignments between these sources, if any, in a concise manner. The data is given below: \n\n${JSON.stringify(
+    //   description,
+    //   null,
+    //   2
+    // )}`;
 
     // console.log("description: ", description);
-    console.log("prompt: ", prompt);
+    // console.log("prompt: ", prompt);
     // res.status(200).json({ message: "good seen" });
 
     // let response = await chapGPT(prompt);
@@ -47,7 +47,7 @@ module.exports.gptResponse = async (req, res, next) => {
     //   response: "response",
     // });
 
-    let response = await chapGPT(prompt);
+    let response = await chapGPT(description);
     if (!response) {
       return res.status(400).json({ message: "error" });
     } else {
