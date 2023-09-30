@@ -10,12 +10,12 @@ const reportSchema = new mongoose.Schema({
 
   age: {
     type: String,
-    default:"Fresh"
+    default: "Fresh",
   },
 
   priority: {
     type: String,
-    default:"Low"
+    default: "Low",
   },
 
   sentToRegulators: {
@@ -41,6 +41,10 @@ const reportSchema = new mongoose.Schema({
   disregard: {
     type: Boolean,
     default: false,
+  },
+
+  claims: {
+    type: String,
   },
 
   summary: {

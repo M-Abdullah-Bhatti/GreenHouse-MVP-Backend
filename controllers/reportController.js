@@ -14,6 +14,8 @@ const createReport = async (req, res) => {
 const sendReportToRegulator = async (req, res) => {
   const { companyName } = req.body;
 
+  // console.log("hello: ", req.body);
+
   try {
     const report = await ReportModel.findOne({ companyName });
 
