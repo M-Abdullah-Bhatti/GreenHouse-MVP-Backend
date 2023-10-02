@@ -8,6 +8,15 @@ const reportSchema = new mongoose.Schema({
     type: String,
   },
 
+  IPFSHash: {
+    type: String,
+  },
+
+  
+  etherscanURL: {
+    type: String,
+  },
+
   age: {
     type: String,
     default:"Fresh"
@@ -55,7 +64,13 @@ const reportSchema = new mongoose.Schema({
     type: String,
   },
 
-  timeStamp: {
+  sendToRegulatorsTimeStamp: {
+    type: String,
+  },
+  caseOpenedTimeStamp: {
+    type: String,
+  },
+  caseUpdateTimeStamp: {
     type: String,
   },
 
