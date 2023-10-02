@@ -74,6 +74,10 @@ const reportSchema = new mongoose.Schema({
   caseOpenedTimeStamp: {
     type: String,
   },
+  
+  caseAssignedTimeStamp: {
+    type: String,
+  },
   caseUpdateTimeStamp: {
     type: String,
   },
