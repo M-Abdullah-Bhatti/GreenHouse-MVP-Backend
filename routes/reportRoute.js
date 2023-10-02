@@ -20,7 +20,7 @@ router.post("/updateSendToRegulators", sendReportToRegulator);
 router.put("/updateReportAgePriority", modifyReportAgePriority);
 router.get("/getUpdateSendToRegulators", getReportsSentToRegulators);
 router.get("/getPendingReports", getAllPendingReports);
-router.get("/getSingleReportDetail/:company", getDetailsOfSingleReport);
+router.get("/getSingleReportDetail/:id", getDetailsOfSingleReport);
 router.get("/getAllUnderReviewReports", getAllUnderReviewReports);
 router.get("/getAllReviewedReports", getAllReviewedReports);
 router.put("/changeStatusToReview", changeStatusToReview);

@@ -108,11 +108,11 @@ const getAllReviewedReports = async (req, res) => {
 
 const getDetailsOfSingleReport = async (req, res) => {
   try {
-    const { company } = req.body; 
-    if (!company) {
+    const  id  = req.params.id; 
+    if (!id) {
       res.json({ message: "Company name is required to get details" });
     }
-    const reports = await ReportModel.findOne({ companyName: company });
+    const reports = await ReportModel.findOne({ _id: id });
     if (!reports) {
       res.json({ message: "No report found" });
     } else {
