@@ -34,7 +34,7 @@ const sendReportToRegulator = async (req, res) => {
 
 const getReportsSentToRegulators = async (req, res) => {
   try {
-    const reports = await ReportModel.find({ sentToRegulators: true });
+    const reports = await ReportModel.find({ sentToRegulators: "true" });
     // console.log(reports);
     res.status(200).json({ results: reports });
   } catch (error) {
@@ -66,7 +66,7 @@ const modifyReportAgePriority = async (req, res) => {
 // Third part api's
 const getAllPendingReports = async (req, res) => {
   try {
-    const reports = await ReportModel.find({ pending: true });
+    const reports = await ReportModel.find({ pending: "true" });
     if (reports.length === 0) {
       res.json({ message: "No pending reports found" });
     } else {
@@ -80,7 +80,7 @@ const getAllPendingReports = async (req, res) => {
 
 const getAllUnderReviewReports = async (req, res) => {
   try {
-    const reports = await ReportModel.find({ reviewing: true });
+    const reports = await ReportModel.find({ reviewing: "true" });
     if (reports.length === 0) {
       res.json({ message: "No under review reports found" });
     } else {
@@ -94,7 +94,7 @@ const getAllUnderReviewReports = async (req, res) => {
 
 const getAllReviewedReports = async (req, res) => {
   try {
-    const reports = await ReportModel.find({ reviewed: true });
+    const reports = await ReportModel.find({ reviewed: "true" });
     if (reports.length === 0) {
       res.json({ message: "No reviewed reports found" });
     } else {

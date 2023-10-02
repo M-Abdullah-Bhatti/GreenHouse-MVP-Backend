@@ -28,28 +28,28 @@ const reportSchema = new mongoose.Schema({
   },
 
   sentToRegulators: {
-    type: Boolean,
-    default: false,
+     type: String,
+    default: "false",
   },
 
   pending: {
-    type: Boolean,
-    default: false,
+      type: String,
+    default: "false",
   },
 
   reviewing: {
-    type: Boolean,
-    default: false,
+      type: String,
+    default: "false",
   },
 
   reviewed: {
-    type: Boolean,
-    default: false,
+       type: String,
+    default: "false",
   },
 
   disregard: {
-    type: Boolean,
-    default: false,
+     type: String,
+    default: "false",
   },
 
   claims: {
