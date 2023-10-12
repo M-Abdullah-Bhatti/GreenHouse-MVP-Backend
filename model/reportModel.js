@@ -4,6 +4,10 @@ const reportSchema = new mongoose.Schema({
     type: String,
   },
 
+  dataSources:{
+    type:String
+  },
+
   contradiction: {
     type: String,
   },
