@@ -4,6 +4,10 @@ const reportSchema = new mongoose.Schema({
     type: String,
   },
 
+  jurisdiction:{
+    type:String
+  },
+
   dataSources:{
     type:String
   },
