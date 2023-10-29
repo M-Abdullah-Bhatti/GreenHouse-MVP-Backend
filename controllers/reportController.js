@@ -1,4 +1,5 @@
 const ReportModel = require("../model/reportModel");
+const mongoose = require("mongoose"); // Import the Mongoose library
 
 const createReport = async (req, res) => {
   try {
@@ -108,7 +109,7 @@ const getAllReviewedReports = async (req, res) => {
 
 const getDetailsOfSingleReport = async (req, res) => {
   try {
-    const  id  = req.params.id; 
+    const id = req.params.id;
     if (!id) {
       res.json({ message: "Company name is required to get details" });
     }
@@ -208,6 +209,19 @@ const closeCase = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+const deleteCollection = async (req, res) => {
+  try {
+    const db = mongoose.connection.db; // Get the MongoDB database instance
+
+    // Delete the specified collection
+    await db.dropCollection("reports");
+
+    res.status(200).json({ success: true, message: "Database cleaned up" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
 
 const updateCase = async (req, res) => {
   try {
@@ -249,5 +263,6 @@ module.exports = {
   changeStatusToReview,
   assignCase,
   closeCase,
+  deleteCollection,
   updateCase,
 };
