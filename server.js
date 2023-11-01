@@ -4,7 +4,35 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 
-app.use(cors());
+
+const allowedOrigins = [
+  'https://green-house-mvp-frontend.vercel.app',
+  'https://greenwashing-mvp-thirdparty.vercel.app',
+  'https://gwi-frontend.vercel.app',
+  'https://gwi-thirdparty.vercel.app',
+  'https://gwi.impactscope.com',
+  'https://gwi-admin.impactscope.com',
+  'https://gwi-thirdparty-git-main-kostiantyn-zanins-projects.vercel.app',
+  'https://gwi-thirdparty-3psk33spg-kostiantyn-zanins-projects.vercel.app',
+  'http://localhost:3000', // For development purposes
+];
+
+// Configure CORS with specific origins allowed.
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
